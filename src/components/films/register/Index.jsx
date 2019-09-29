@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
-import UserRegisterForm from "./User-register-form";
+import FilmRegisterForm from "./Film-register-form";
 import Container from '@material-ui/core/Container';
 import {useDispatch, useSelector} from "react-redux";
 
@@ -57,7 +57,7 @@ export default function FullScreenDialog() {
                             <CloseIcon />
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>
-                            Novo Usuário
+                            Novo Filme
                         </Typography>
                         {/*<Button color="inherit" onClick={handleClose}>*/}
                         {/*    salvar*/}
@@ -66,7 +66,7 @@ export default function FullScreenDialog() {
                 </AppBar>
 
                 <Container maxWidth="sm">
-                    <UserRegisterForm user={userState.user}/>
+                    <FilmRegisterForm user={userState.user}/>
                 </Container>
 
             </Dialog>
