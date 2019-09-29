@@ -42,6 +42,7 @@ const useStyles = makeStyles(theme => ({
         marginBottom: 10,
         width: 90,
         height: 90,
+        cursor: 'pointer'
     },
 }));
 
@@ -77,6 +78,7 @@ export default function FilmRegisterForm(props) {
 
     const save = (data) => {
         console.log(data)
+        console.log(image)
         // const restOp = data.filmEdit ? api.put : api.post;
         // restOp(`${api.api_url}/users`, {...data})
         //     .then( res => {
@@ -129,18 +131,16 @@ export default function FilmRegisterForm(props) {
                     <Form className={classes.container} noValidate autoComplete="off">
                         <Box display="flex" flexDirection="row">
                             <Box flexDirection="column" alignItems="flex-start">
-                                <Avatar alt="Remy Sharp" src={image === null ? AvatarDefault : image.file} className={classes.bigAvatar} />
                                 <input
                                     accept="image/*"
                                     style={{ display: 'none' }}
                                     id="raised-button-file"
                                     multiple={false}
                                     type="file"
+                                    onChange={(event => handleChange(event))}
                                 />
                                 <label htmlFor="raised-button-file">
-                                    <Button variant="raised" component="span">
-                                        Upload
-                                    </Button>
+                                    <Avatar alt="Remy Sharp" src={image === null ? AvatarDefault : image.file} className={classes.bigAvatar} htmlFor="raised-button-file"/>
                                 </label>
                             </Box>
 
