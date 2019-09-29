@@ -68,7 +68,7 @@ export default function Navbar() {
                         <SideBar/>
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
-                        ReactApp
+                        TRAILIX
                     </Typography>
                     <div>
                         <IconButton
