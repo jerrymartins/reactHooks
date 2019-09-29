@@ -9,6 +9,7 @@ import {useDispatch} from "react-redux";
 import Box from "@material-ui/core/Box";
 import Avatar from "@material-ui/core/Avatar";
 import AvatarDefault from "../../../assets/defaultimagefilm.png";
+import api from "../../../services/api";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -76,35 +77,69 @@ export default function FilmRegisterForm(props) {
         setImage({file: URL.createObjectURL(evt.target.files[0]), fileToUpload: evt.target.files[0]})
     };
 
-    const save = (data) => {
-        console.log(data)
-        console.log(image)
-        // const restOp = data.filmEdit ? api.put : api.post;
-        // restOp(`${api.api_url}/users`, {...data})
-        //     .then( res => {
-        //         console.log(res)
-        //         // setStateSnackBar({ open: true, message: res.data[0].MESSAGE || 'operação finalizada' });
-        //         //
-        //         // setTimeout(() => {
-        //         //     setStateSnackBar({ open: false });
-        //         //     dispatch({type: 'CREATE_USER', ...{operation: 'create', userId: null, dialog_open: false, user: {}}});
-        //         // }, 2000);
-        //
-        //     }).catch( err => {
-        //         console.log(err);
-        //         setStateSnackBar({ open: true, message: 'Erro ao cadastrar usuário' });
-        //         setTimeout(() => {
-        //             setStateSnackBar({ open: false });
-        //             dispatch({type: 'CREATE_USER', ...{operation: 'create', userId: null, dialog_open: false, user: {}}});
-        //         }, 2000);
-        // })
+    const imageUpload = () => {
+        var formData = new FormData();
+        formData.append("photo", image.fileToUpload);
+        return api.post('file/upload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
     };
 
-    useEffect(() => {
-        console.log(image)
-    }, [image]);
+    const filmSave = (data) => {
+        const restOp = data.filmEdit ? api.put : api.post;
+        return restOp(`/films`, {...data});
+    };
 
+    const save = (data) => {
+        const film = {
+            "Item": {
+                "yearFilm": data.yearFilm,
+                "title": data.title,
+                "info": {
+                    "video_url": "https://s3dynamox.s3.amazonaws.com/Homem-Aranha_+Longe+de+Casa+_+Trailer+Oficial+%232+_+DUB+_+04+de+julho+nos+cinemas.mp4",
+                    "image_url": 'without',
+                    "sinopse": data.sinopse
+                }
+            }
+        };
 
+        if (image) {
+            imageUpload().then( imageLocation => {
+                film.Item.info.image_url = imageLocation.data;
+
+                filmSave(film).then( res => {
+                    setStateSnackBar({ open: true, message: 'filme salvo' });
+
+                    setTimeout(() => {
+                        setStateSnackBar({ open: false });
+                        dispatch({type: 'USER', ...{operation: 'create', userId: null, dialog_open: false, user: {}}});
+                    }, 2000);
+                }).catch(err => {
+                    console.log(err)
+                })
+
+            }).catch(err => {
+                setStateSnackBar({ open: true, message: 'Erro ao cadastrar filme' });
+                setTimeout(() => {
+                    setStateSnackBar({ open: false });
+                    dispatch({type: 'USER', ...{operation: 'create', userId: null, dialog_open: false, user: {}}});
+                }, 2000);
+            });
+        } else {
+            filmSave(film).then( res => {
+                setStateSnackBar({ open: true, message: 'filme salvo' });
+
+                setTimeout(() => {
+                    setStateSnackBar({ open: false });
+                    dispatch({type: 'USER', ...{operation: 'create', userId: null, dialog_open: false, user: {}}});
+                }, 2000);
+            }).catch(err => {
+                console.log(err)
+            })
+        }
+    };
 
     return (
         <div>

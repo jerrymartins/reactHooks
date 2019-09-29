@@ -41,14 +41,14 @@ export default function ImgMediaCard(props) {
         component="img"
         alt="Contemplative Reptile"
         height="140"
-        image={state.url_image}
+        image={state.info.image_url}
         title="vídeo homem aranha"
     />);
 
 
-    useEffect(() => {
-
-    }, [state]);
+    // useEffect(() => {
+    //
+    // }, [state]);
 
     const setToTrailer = () => {
         setCardMediaState(
@@ -56,7 +56,7 @@ export default function ImgMediaCard(props) {
                 component="iframe"
                 alt="Contemplative Reptile"
                 height="140"
-                src={state.url_video}
+                src={state.info.video_url}
                 title="vídeo homem aranha"
             />
         );
@@ -68,11 +68,15 @@ export default function ImgMediaCard(props) {
                 component="img"
                 alt="Contemplative Reptile"
                 height="140"
-                image={state.url_image}
+                image={state.info.image_url}
                 title="vídeo homem aranha"
             />
         );
     };
+
+    useEffect(() => {
+        console.log(cardMediaState);
+    }, [cardMediaState, state]);
     return (
         <Card className={classes.card}>
             <CardActionArea>
@@ -82,7 +86,7 @@ export default function ImgMediaCard(props) {
                         {state.title}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        {state.sinopse}
+                        {state.info.sinopse}
                     </Typography>
                 </CardContent>
             </CardActionArea>
