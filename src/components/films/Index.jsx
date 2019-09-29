@@ -14,11 +14,17 @@ export default props => {
         <div>
             <FullScreenDialog/>
             <Grid container spacing={3}>
-                {[1,2,3]
-                    .map(i => <Grid item key={i}>
+                {[
+                    {url_image: 'https://s3dynamox.s3.amazonaws.com/237775-de-homem-aranha-de-volta-ao-lar-se-l-diapo-2.jpg',
+                     url_video: 'https://s3dynamox.s3.amazonaws.com/Homem-Aranha_+Longe+de+Casa+_+Trailer+Oficial+%232+_+DUB+_+04+de+julho+nos+cinemas.mp4'
+                    },
+                    {url_image: 'https://s3dynamox.s3.amazonaws.com/4lqbvbx8ga5smyt55n7o4qaladimwis.jpg',
+                        url_video: 'https://s3dynamox.s3.amazonaws.com/y2mate.com+-+will_smith_friend_like_me_from_aladdin_1at7kKzBYxI_360p.mp4'
+                    }
+                ]
+                    .map((item, i) => <Grid item key={i}>
                                 <CardView
-                                    mediaUrl={{url_image: 'https://dynamoxs3storage.s3.amazonaws.com/xu29icuig9fvot4plbqss237775-de-homem-aranha-de-volta-ao-lar-se-l-diapo-2.jpg',
-                                        url_video: 'https://dynamoxs3storage.s3.amazonaws.com/Homem-Aranha_+Longe+de+Casa+_+Trailer+Oficial+%232+_+DUB+_+04+de+julho+nos+cinemas.mp4'}}
+                                    mediaUrl={item}
                                     xs={3} key={i}/>
                                </Grid> )}
 
@@ -27,3 +33,7 @@ export default props => {
     )
 }
 
+
+//https://s3dynamox.s3.amazonaws.com/4lqbvbx8ga5smyt55n7o4qaladimwis.jpg
+
+//https://s3dynamox.s3.amazonaws.com/y2mate.com+-+will_smith_friend_like_me_from_aladdin_1at7kKzBYxI_360p.mp4
