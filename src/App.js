@@ -10,7 +10,7 @@ import {Container} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
     main: {
-      paddingTop: theme.spacing(5)
+      paddingTop: theme.spacing(5),
     },
     root: {
         flexGrow: 1

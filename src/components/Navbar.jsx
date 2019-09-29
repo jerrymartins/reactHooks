@@ -13,14 +13,24 @@ import defaultAvatar from "../assets/vegeta_default1.png"
 
 const useStyles = makeStyles(theme => ({
     root: {
-        flexGrow: 1,
+        flexGrow: 1
+    },
+    navbar: {
+        backgroundColor: 'rgb(20, 20, 20)'
     },
     menuButton: {
         marginRight: theme.spacing(2),
     },
     title: {
         flexGrow: 1,
-    },
+        textDecoration: 'none',
+        fontSize: '1.8em',
+        color: '#E50914',
+        display: 'inline-block',
+        verticalAlign: 'middle',
+        cursor: 'pointer',
+        marginRight: '5px'
+            },
     avatar: {
         margin: 10,
     },
@@ -52,7 +62,7 @@ export default function Navbar() {
     }
     return (
         <div className={classes.root}>
-            <AppBar position="static">
+            <AppBar position="static" className={classes.navbar}>
                 <Toolbar>
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         <SideBar/>
