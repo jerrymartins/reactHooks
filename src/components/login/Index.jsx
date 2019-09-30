@@ -9,8 +9,8 @@ import Container from '@material-ui/core/Container';
 import {useDispatch} from "react-redux";
 import './Style.css'
 import LinearProgress from '@material-ui/core/LinearProgress';
+import FacebookLogin from 'react-facebook-login';
 import api from "../../services/api";
-import FacebookLoginButton from "../faceBookLoginButton/FaceBookButton";
 
 import {Formik, Field, Form} from 'formik';
 import {
@@ -65,52 +65,57 @@ export default props => {
     //         urlImage:'url/image/photo.jpg'}
     // });
 
-    const onFacebookLogin = (loginStatus, resultObject) => {
-        console.log(resultObject)
-    };
+    const responseFacebook = (response) => {
+        console.log(response);
+        dispatch({type:'LOGIN',...{
+                logged: true,
+                user: response.name,
+                url_image: response.picture.data.url}
+        });
+    }
 
     const login = (body) => {
         const req = {user: 'luiz', pwd: '123'};
-        // setStateProgressBar(<LinearProgress className={classes.progress}/>);
-        // api.post(`/login`, req).then( res => {
-        //     //login deve ser confirmado antes do dispatch
-        //     if (res.data.token) {
-        //         dispatch({
-        //             type:'LOGIN',...{
-        //                 logged: true,
-        //                 user: 'Jerry Martins',
-        //                 email: 'zeroumbin@gmail.com',
-        //                 profile: 'admin',
-        //                 status: true,
-        //                 url_image: 'https://dynamoxs3storage.s3.amazonaws.com/xu29icuig9fvot4plbqss237775-de-homem-aranha-de-volta-ao-lar-se-l-diapo-2.jpg',
-        //                 token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTY5NDc2Mjk5LCJleHAiOjE1Njk0NzY1OTl9.RQTi1gd-x0J-0dEKgi4E3o3xT7amtckjHIV_VtUogJ8'
-        //             }
-        //         })
-        //         //pegar dados do usuário
-        //         // api.get(`api/login/users?operation=RC&userId=${res.data.RETURN}`)
-        //         //     .then( user => {
-        //         //         console.log(user.data[0]);
-        //         //         dispatch({
-        //         //                     type:'LOGIN',...{
-        //         //                     logged: false,
-        //         //                     user: 'Jerry Martins',
-        //         //                     email: 'zeroumbin@gmail.com',
-        //         //                     profile: 'admin',
-        //         //                     status: true,
-        //         //                     url_image: 'https://dynamoxs3storage.s3.amazonaws.com/xu29icuig9fvot4plbqss237775-de-homem-aranha-de-volta-ao-lar-se-l-diapo-2.jpg',
-        //         //                     token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTY5NDc2Mjk5LCJleHAiOjE1Njk0NzY1OTl9.RQTi1gd-x0J-0dEKgi4E3o3xT7amtckjHIV_VtUogJ8'
-        //         //                   }
-        //         //         })
-        //         // }).catch(err => console.log(err));
-        //
-        //     } else {
-        //         setStateProgressBar('');
-        //         setStateSnackBar({ open: true });
-        //         setTimeout(() => {
-        //             setStateSnackBar({ open: false });
-        //         }, 3000);
-        //     }
-        // }).catch(err => console.log(err));
+        setStateProgressBar(<LinearProgress className={classes.progress}/>);
+        api.post(`/login`, req).then( res => {
+            //login deve ser confirmado antes do dispatch
+            if (res.data.token) {
+                dispatch({
+                    type:'LOGIN',...{
+                        logged: true,
+                        user: 'Bem vindo',
+                        email: 'zeroumbin@gmail.com',
+                        profile: 'admin',
+                        status: true,
+                        url_image: 'https://s3dynamox.s3.amazonaws.com/vegeta_default1.png',
+                        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTY5NDc2Mjk5LCJleHAiOjE1Njk0NzY1OTl9.RQTi1gd-x0J-0dEKgi4E3o3xT7amtckjHIV_VtUogJ8'
+                    }
+                })
+                //pegar dados do usuário
+                // api.get(`api/login/users?operation=RC&userId=${res.data.RETURN}`)
+                //     .then( user => {
+                //         console.log(user.data[0]);
+                //         dispatch({
+                //                     type:'LOGIN',...{
+                //                     logged: false,
+                //                     user: 'Jerry Martins',
+                //                     email: 'zeroumbin@gmail.com',
+                //                     profile: 'admin',
+                //                     status: true,
+                //                     url_image: 'https://dynamoxs3storage.s3.amazonaws.com/xu29icuig9fvot4plbqss237775-de-homem-aranha-de-volta-ao-lar-se-l-diapo-2.jpg',
+                //                     token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTY5NDc2Mjk5LCJleHAiOjE1Njk0NzY1OTl9.RQTi1gd-x0J-0dEKgi4E3o3xT7amtckjHIV_VtUogJ8'
+                //                   }
+                //         })
+                // }).catch(err => console.log(err));
+
+            } else {
+                setStateProgressBar('');
+                setStateSnackBar({ open: true });
+                setTimeout(() => {
+                    setStateSnackBar({ open: false });
+                }, 3000);
+            }
+        }).catch(err => console.log(err));
     };
 
     return (
@@ -182,15 +187,18 @@ export default props => {
                             >
                                 Entrar
                             </Button>
+
+                            <FacebookLogin
+                                appId="490579378400538" //APP ID NOT CREATED YET
+                                fields="name,email,picture"
+                                callback={responseFacebook}
+                            />
+
                         </Form>
                     )}
 
                 />
             </div>
-
-            <FacebookLoginButton  onLogin={onFacebookLogin}>
-                <button>Entra com Facebook</button>
-            </FacebookLoginButton>
 
             {stateProgressBar}
 

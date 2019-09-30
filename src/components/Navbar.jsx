@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -60,6 +60,10 @@ export default function Navbar() {
     function logout() {
         dispatch({type: "LOGOUT"})
     }
+
+    useEffect(() => {
+        console.log(loginState)
+    }, [loginState])
     return (
         <div className={classes.root}>
             <AppBar position="static" className={classes.navbar}>
@@ -78,7 +82,7 @@ export default function Navbar() {
                             onClick={handleMenu}
                             color="inherit"
                         >
-                            <Avatar alt="Remy Sharp" src={defaultAvatar} className={classes.bigAvatar} />
+                            <Avatar alt="Remy Sharp" src={loginState.logged ? loginState.url_image : defaultAvatar} className={classes.bigAvatar} />
                             {loginState.user}
 
                         </IconButton>
