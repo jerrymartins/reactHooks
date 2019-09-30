@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "CLIENT_ENV=development craco start",
-    "dev": "CLIENT_ENV=localhost HTTPS=true craco start",
+    "dev": "CLIENT_ENV=localhost craco start",
     "prod": "CLIENT_ENV=production craco start",
     "build": "CLIENT_ENV=production craco build",
     "build-dev": "CLIENT_ENV=development craco build"
