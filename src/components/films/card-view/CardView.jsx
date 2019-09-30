@@ -12,6 +12,8 @@ import {red} from "@material-ui/core/colors";
 const useStyles = makeStyles(theme => ({
     card: {
         maxWidth: 345,
+        // maxHeight: 340,
+        // minHeight: 340
     },
     media: {
         height: 0,
@@ -34,7 +36,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function ImgMediaCard(props) {
     const classes = useStyles();
-    const [expanded, setExpanded] = useState(false);
 
     const [state, setState] = useState(props.mediaUrl);
     const [cardMediaState, setCardMediaState] = useState(<CardMedia
@@ -75,7 +76,6 @@ export default function ImgMediaCard(props) {
     };
 
     useEffect(() => {
-        console.log(cardMediaState);
     }, [cardMediaState, state]);
     return (
         <Card className={classes.card}>

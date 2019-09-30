@@ -69,7 +69,7 @@ export default function FilmRegisterForm(props) {
         sinopse: Yup.string()
             .required('Informe a sinopse'),
         url_image: Yup.object(),
-        url_video: Yup.string()
+        video_url: Yup.string()
             .required('Informe uma url para o video'),
     });
 
@@ -98,7 +98,7 @@ export default function FilmRegisterForm(props) {
                 "yearFilm": data.yearFilm,
                 "title": data.title,
                 "info": {
-                    "video_url": "https://s3dynamox.s3.amazonaws.com/Homem-Aranha_+Longe+de+Casa+_+Trailer+Oficial+%232+_+DUB+_+04+de+julho+nos+cinemas.mp4",
+                    "video_url": data.video_url,
                     "image_url": 'without',
                     "sinopse": data.sinopse
                 }
@@ -111,7 +111,7 @@ export default function FilmRegisterForm(props) {
 
                 filmSave(film).then( res => {
                     setStateSnackBar({ open: true, message: 'filme salvo' });
-
+                    setImage({});
                     setTimeout(() => {
                         setStateSnackBar({ open: false });
                         dispatch({type: 'USER', ...{operation: 'create', userId: null, dialog_open: false, user: {}}});
@@ -151,7 +151,7 @@ export default function FilmRegisterForm(props) {
                     yearFilm: '',
                     sinopse: '',
                     url_image: '',
-                    url_video: ''
+                    video_url: ''
                 }}
                 validationSchema={FilmSchema}
                 onSubmit={values => {
@@ -209,7 +209,7 @@ export default function FilmRegisterForm(props) {
                             label='url do video'
                             //className={classes.textField}
                             fullWidth
-                            name="url_video"
+                            name="video_url"
                             component={TextField}/>
 
                         <Button type="submit" color="primary" className={classes.button}>

@@ -15,7 +15,9 @@ import {useDispatch, useSelector} from "react-redux";
 const useStyles = makeStyles(theme => ({
     btnNewFilm: {
         position: 'relative',
-        top: theme.spacing(-3)
+        top: theme.spacing(-3),
+        borderColor: '#E50914',
+        color: '#E50914',
     },
     appBar: {
         position: 'relative'
@@ -52,7 +54,7 @@ export default function FullScreenDialog() {
             </Button>
             <Dialog fullScreen open={userState.dialog_open} onClose={handleClose} TransitionComponent={Transition}>
                 <AppBar className={classes.appBar}>
-                    <Toolbar>
+                    <Toolbar style={{backgroundColor: 'rgb(20, 20, 20)'}}>
                         <IconButton edge="start" color="inherit" onClick={handleCloseCancel} aria-label="close">
                             <CloseIcon />
                         </IconButton>

@@ -47,7 +47,6 @@ export default () => {
                     row.info.profile,
                     row.info.status ? 'Ativo': 'Inativo',
                     <SimpleMenu pathdelete={`users/${row.user}/${row.email}`} row={row}/>));
-                console.log(rows);
                 dispath({type: 'NEW_TABLE_DATA', ...{rows, headCells, columnsNames, tableName:'Usuários'}});
                 setIsSearching(false);
             }).catch( err => {

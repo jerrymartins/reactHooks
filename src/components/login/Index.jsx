@@ -10,6 +10,7 @@ import {useDispatch} from "react-redux";
 import './Style.css'
 import LinearProgress from '@material-ui/core/LinearProgress';
 import api from "../../services/api";
+import FacebookLoginButton from "../faceBookLoginButton/FaceBookButton";
 
 import {Formik, Field, Form} from 'formik';
 import {
@@ -58,11 +59,15 @@ export default props => {
     const classes = useStyles();
 
     //login automático
-    dispatch({type:'LOGIN',...{
-            logged: true,
-            user: 'jerry martins',
-            urlImage:'url/image/photo.jpg'}
-    });
+    // dispatch({type:'LOGIN',...{
+    //         logged: true,
+    //         user: 'jerry martins',
+    //         urlImage:'url/image/photo.jpg'}
+    // });
+
+    const onFacebookLogin = (loginStatus, resultObject) => {
+        console.log(resultObject)
+    }
 
     const login = (body) => {
         const req = {user: 'luiz', pwd: '123'};
@@ -177,6 +182,11 @@ export default props => {
                             >
                                 Entrar
                             </Button>
+
+                            <FacebookLoginButton onLogin={onFacebookLogin}>
+                                <button>Entra com Facebook</button>
+                            </FacebookLoginButton>
+
                         </Form>
                     )}
                 />
