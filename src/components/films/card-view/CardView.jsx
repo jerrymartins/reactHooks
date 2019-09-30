@@ -12,6 +12,9 @@ import {red} from "@material-ui/core/colors";
 const useStyles = makeStyles(theme => ({
     card: {
         maxWidth: 345,
+        maxHeight: 345,
+        minHeight: 345,
+        overflow: 'auto'
         // maxHeight: 340,
         // minHeight: 340
     },
