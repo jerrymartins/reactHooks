@@ -58,12 +58,12 @@ export default props => {
     const dispatch = useDispatch();
     const classes = useStyles();
 
-    //login automático
-    // dispatch({type:'LOGIN',...{
-    //         logged: true,
-    //         user: 'jerry martins',
-    //         urlImage:'url/image/photo.jpg'}
-    // });
+    // login automático
+    dispatch({type:'LOGIN',...{
+            logged: true,
+            user: 'jerry martins',
+            urlImage:'url/image/photo.jpg'}
+    });
 
     const responseFacebook = (response) => {
         console.log(response);
@@ -79,6 +79,7 @@ export default props => {
         setStateProgressBar(<LinearProgress className={classes.progress}/>);
         api.post(`/login`, req).then( res => {
             //login deve ser confirmado antes do dispatch
+            console.log(res)
             if (res.data.token) {
                 dispatch({
                     type:'LOGIN',...{
@@ -88,7 +89,7 @@ export default props => {
                         profile: 'admin',
                         status: true,
                         url_image: 'https://s3dynamox.s3.amazonaws.com/vegeta_default1.png',
-                        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTY5NDc2Mjk5LCJleHAiOjE1Njk0NzY1OTl9.RQTi1gd-x0J-0dEKgi4E3o3xT7amtckjHIV_VtUogJ8'
+                        token: res.data.token
                     }
                 })
                 //pegar dados do usuário

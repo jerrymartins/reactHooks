@@ -51,6 +51,7 @@ export default function FilmRegisterForm(props) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [image, setImage] = useState(null);
+    const [video, setVideo] = useState(null);
     const [stateSnackBar, setStateSnackBar] = useState({
         open: false,
         vertical: 'top',
@@ -69,9 +70,22 @@ export default function FilmRegisterForm(props) {
         sinopse: Yup.string()
             .required('Informe a sinopse'),
         url_image: Yup.object(),
-        video_url: Yup.string()
-            .required('Informe uma url para o video'),
+        video_url: Yup.object()
     });
+
+    const handleChangeVideo = (evt) => {
+        setVideo({fileToUpload: evt.target.files[0]})
+    };
+
+    const videoUpload = () => {
+        var formData = new FormData();
+        formData.append("file", video.fileToUpload);
+        return api.post('file/upload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+    };
 
     const handleChange = (evt) => {
         setImage({file: URL.createObjectURL(evt.target.files[0]), fileToUpload: evt.target.files[0]})
@@ -79,13 +93,14 @@ export default function FilmRegisterForm(props) {
 
     const imageUpload = () => {
         var formData = new FormData();
-        formData.append("photo", image.fileToUpload);
+        formData.append("file", image.fileToUpload);
         return api.post('file/upload', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         });
     };
+
 
     const filmSave = (data) => {
         const restOp = data.filmEdit ? api.put : api.post;
@@ -107,7 +122,35 @@ export default function FilmRegisterForm(props) {
 
         if (image) {
             imageUpload().then( imageLocation => {
+
                 film.Item.info.image_url = imageLocation.data;
+
+                videoUpload().then( videoLocation => {
+                    film.Item.info.video_url = videoLocation.data;
+
+                    filmSave(film).then( res => {
+                        setStateSnackBar({ open: true, message: 'filme salvo' });
+                        setImage({});
+                        setTimeout(() => {
+                            setStateSnackBar({ open: false });
+                            dispatch({type: 'USER', ...{operation: 'create', userId: null, dialog_open: false, user: {}}});
+                        }, 2000);
+                    }).catch(err => {
+                        console.log(err)
+                    });
+
+                }).catch( err => console.log(err));
+
+            }).catch(err => {
+                setStateSnackBar({ open: true, message: 'Erro ao cadastrar filme' });
+                setTimeout(() => {
+                    setStateSnackBar({ open: false });
+                    dispatch({type: 'USER', ...{operation: 'create', userId: null, dialog_open: false, user: {}}});
+                }, 2000);
+            });
+        } else {
+            videoUpload().then( videoLocation => {
+                film.Item.info.video_url = videoLocation.data;
 
                 filmSave(film).then( res => {
                     setStateSnackBar({ open: true, message: 'filme salvo' });
@@ -118,26 +161,9 @@ export default function FilmRegisterForm(props) {
                     }, 2000);
                 }).catch(err => {
                     console.log(err)
-                })
+                });
 
-            }).catch(err => {
-                setStateSnackBar({ open: true, message: 'Erro ao cadastrar filme' });
-                setTimeout(() => {
-                    setStateSnackBar({ open: false });
-                    dispatch({type: 'USER', ...{operation: 'create', userId: null, dialog_open: false, user: {}}});
-                }, 2000);
-            });
-        } else {
-            filmSave(film).then( res => {
-                setStateSnackBar({ open: true, message: 'filme salvo' });
-
-                setTimeout(() => {
-                    setStateSnackBar({ open: false });
-                    dispatch({type: 'USER', ...{operation: 'create', userId: null, dialog_open: false, user: {}}});
-                }, 2000);
-            }).catch(err => {
-                console.log(err)
-            })
+            }).catch( err => console.log(err));
         }
     };
 
@@ -205,12 +231,14 @@ export default function FilmRegisterForm(props) {
                             name="sinopse"
                             component={TextField}/>
 
-                        <Field
+                        <input
                             label='url do video'
                             //className={classes.textField}
                             fullWidth
-                            name="video_url"
-                            component={TextField}/>
+
+                            multiple={false}
+                            type="file"
+                            onChange={(event => handleChangeVideo(event))}/>
 
                         <Button type="submit" color="primary" className={classes.button}>
                             Salvar
