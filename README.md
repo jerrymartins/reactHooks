@@ -8,7 +8,7 @@
 
 `cd reactHooks/`
 
-`npm run install`
+`npm install`
 `npm run dev`
 
 ### Link de acesso
@@ -16,7 +16,8 @@
 `http://localhost:3000/`
 
 ### LOGIN
-`para logar, pode usar o botão login com facebook, ou usar qualquer email e senha :)`
+`para logar pode usar qualquer email e senha :)`
+`ou usar login com facebook se estiver acessando o projeto executando em rede local`
 
 ### Observações
 Parte da estrutura (Storage Files-S3, Storage Data-Dynamodb) está contida em instancias da AWS.

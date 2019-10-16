@@ -10,6 +10,7 @@ import Box from "@material-ui/core/Box";
 import Avatar from "@material-ui/core/Avatar";
 import AvatarDefault from "../../../assets/defaultimagefilm.png";
 import api from "../../../services/api";
+import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -20,6 +21,9 @@ const useStyles = makeStyles(theme => ({
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
         width: 435,
+    },
+    textArea: {
+        minWidth: 517
     },
     button: {
         marginTop: theme.spacing(3),
@@ -226,10 +230,11 @@ export default function FilmRegisterForm(props) {
 
                         <Field
                             label='Sinopse'
-                            //className={classes.textField}
+                            className={classes.textArea}
                             fullWidth
                             name="sinopse"
-                            component={TextField}/>
+                            aria-label="minimum height" rows={3}
+                            component={TextareaAutosize}/>
 
                         <input
                             label='url do video'

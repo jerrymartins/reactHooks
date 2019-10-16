@@ -88,7 +88,7 @@ export default function ImgMediaCard(props) {
                     <Typography gutterBottom variant="h5" component="h2">
                         {state.title}
                     </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
+                    <Typography variant="body2" color="textSecondary" component="p" style={{overflow: 'auto', maxHeight:'70px'}}>
                         {state.info.sinopse}
                     </Typography>
                 </CardContent>
