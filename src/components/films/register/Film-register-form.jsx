@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { TextField } from 'formik-material-ui';
@@ -10,7 +10,7 @@ import Box from "@material-ui/core/Box";
 import Avatar from "@material-ui/core/Avatar";
 import AvatarDefault from "../../../assets/defaultimagefilm.png";
 import api from "../../../services/api";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -49,6 +49,10 @@ const useStyles = makeStyles(theme => ({
         height: 90,
         cursor: 'pointer'
     },
+    progress: {
+        margin: theme.spacing(2),
+        marginTop: theme.spacing(10)
+    }
 }));
 
 export default function FilmRegisterForm(props) {
@@ -56,6 +60,11 @@ export default function FilmRegisterForm(props) {
     const dispatch = useDispatch();
     const [image, setImage] = useState(null);
     const [video, setVideo] = useState(null);
+
+    const [sendingImage, setSendingImage] = useState(false);
+    const [sendingVideo, setSendingVideo] = useState(false);
+    const [sendingFilm, setSendingFilm] = useState(false);
+
     const [stateSnackBar, setStateSnackBar] = useState({
         open: false,
         vertical: 'top',
@@ -125,14 +134,19 @@ export default function FilmRegisterForm(props) {
         };
 
         if (image) {
+            setSendingImage(true);
             imageUpload().then( imageLocation => {
-
+                setSendingImage(false);
                 film.Item.info.image_url = imageLocation.data;
 
+                setSendingVideo(true);
                 videoUpload().then( videoLocation => {
+                    setSendingVideo(false);
                     film.Item.info.video_url = videoLocation.data;
 
+                    setSendingFilm(true);
                     filmSave(film).then( res => {
+                        setSendingFilm(false);
                         setStateSnackBar({ open: true, message: 'filme salvo' });
                         setImage({});
                         setTimeout(() => {
@@ -261,6 +275,14 @@ export default function FilmRegisterForm(props) {
                     'aria-describedby': 'message-id',
                 }}
                 message={<span id="message-id">{stateSnackBar.message || 'operação realizada com sucesso'}</span>}/>
+
+                <div className={classes.progress}>
+                    <LinearProgress hidden={!sendingImage && !sendingVideo && !sendingFilm}/>
+                    <span hidden={!sendingImage}>enviando a foto</span>
+                    <span hidden={!sendingVideo}>enviando o vídeo</span>
+                    <span hidden={!sendingFilm}>Salvando Filme</span>
+                </div>
+
         </div>
     )
 }
