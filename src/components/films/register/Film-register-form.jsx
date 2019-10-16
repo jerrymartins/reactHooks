@@ -234,7 +234,7 @@ export default function FilmRegisterForm(props) {
                             fullWidth
                             name="sinopse"
                             aria-label="minimum height" rows={3}
-                            component={TextareaAutosize}/>
+                            component={'textarea'}/>
 
                         <input
                             label='url do video'
