@@ -22,8 +22,6 @@ export default props => {
         fetchData();
     }, [filmsSelector]);
 
-    filmsState.forEach( film => console.log(film))
-
     return(
         <div>
             <FullScreenDialog/>
@@ -40,8 +38,3 @@ export default props => {
         </div>
     )
 }
-
-
-//https://s3dynamox.s3.amazonaws.com/4lqbvbx8ga5smyt55n7o4qaladimwis.jpg
-
-//https://s3dynamox.s3.amazonaws.com/y2mate.com+-+will_smith_friend_like_me_from_aladdin_1at7kKzBYxI_360p.mp4

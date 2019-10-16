@@ -8,6 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {red} from "@material-ui/core/colors";
+import FilmMenu from "./FilmMenu";
 
 const useStyles = makeStyles(theme => ({
     card: {
@@ -100,6 +101,7 @@ export default function ImgMediaCard(props) {
                 <Button size="small" color="primary" onClick={setToTrailer}>
                     Trailer
                 </Button>
+                <FilmMenu filmData={state}/>
             </CardActions>
         </Card>
     );
