@@ -22,23 +22,32 @@ export default function FilmMenu(props) {
         setAnchorEl(null);
     };
 
+    const deleteFiles = () => {
+        const data = {
+            keyImage: film.info.image_url.replace('https://s3dynamox.s3.amazonaws.com/', ''),
+            keyFilm: film.info.video_url.replace('https://s3dynamox.s3.amazonaws.com/', '')
+        };
+
+        return api.delete('file', {data});
+    };
+
+    const deleteFilm = () => {
+        return api.delete(`films/${film.yearFilm}/${film.title}`);
+    }
+
     const removeFilm = () => {
-        const keyImage = film.info.image_url.replace('https://s3dynamox.s3.amazonaws.com/', '');
-        const keyFilm = film.info.video_url.replace('https://s3dynamox.s3.amazonaws.com/', '');
-
-        const data = {keyImage, keyFilm};
-        api.delete(`films/${film.yearFilm}/${film.title}`).then( res => {
-            console.log(res);
-            dispath({type: 'FILM', ...{loadData: true}});
-        }).catch( err => {
-            console.log(err);
-        });
-
-        // api.delete('file', {data}).then( res => {
-        //     console.log(res);
-        // }).catch( err => {
-        //     console.log(err);
-        // });
+        deleteFiles().then( sucessDeleteFiles => {
+            console.log(sucessDeleteFiles)
+            if (sucessDeleteFiles.data.Errors.length > 0) {
+                console.log('ocorreram erros');
+            } else {
+                deleteFilm().then( sucessDeleteFilm => {
+                    dispath({type: 'FILM', ...{loadData: true}});
+                }).catch( errFilm => {
+                    console.log(errFilm);
+                })
+            }
+        }).catch(errFile => console.log(errFile));
 
         setAnchorEl(null);
     };
